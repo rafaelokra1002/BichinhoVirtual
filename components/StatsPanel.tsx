@@ -14,7 +14,7 @@ interface StatsPanelProps {
 
 export function StatsPanel({ pet }: StatsPanelProps) {
   return (
-    <div className="flex w-full flex-col gap-3">
+    <div className="flex w-full flex-col gap-1.5">
       <StatBar label="Fome" icon="🍖" value={pet.fome} colorClass={corPorValor(pet.fome, "from-orange-400 to-orange-500")} />
       <StatBar
         label="Felicidade"

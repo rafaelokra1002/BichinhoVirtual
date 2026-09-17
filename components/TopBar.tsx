@@ -4,7 +4,10 @@ interface TopBarProps {
   gemas: number;
   mudo: boolean;
   recompensaDiariaDisponivel: boolean;
+  notificacoesSuportadas: boolean;
+  notificacoesAtivas: boolean;
   onAlternarSom: () => void;
+  onAlternarNotificacoes: () => void;
   onAbrirRecompensaDiaria: () => void;
   onSair: () => void;
 }
@@ -15,7 +18,10 @@ export function TopBar({
   gemas,
   mudo,
   recompensaDiariaDisponivel,
+  notificacoesSuportadas,
+  notificacoesAtivas,
   onAlternarSom,
+  onAlternarNotificacoes,
   onAbrirRecompensaDiaria,
   onSair,
 }: TopBarProps) {
@@ -53,6 +59,19 @@ export function TopBar({
           >
             {mudo ? "🔇" : "🔊"}
           </button>
+          {notificacoesSuportadas && (
+            <button
+              type="button"
+              onClick={onAlternarNotificacoes}
+              aria-label={notificacoesAtivas ? "Desativar notificações" : "Ativar notificações"}
+              aria-pressed={notificacoesAtivas}
+              className={`flex h-9 w-9 items-center justify-center rounded-full text-lg shadow-[0_2px_0_0_rgba(0,0,0,0.12)] transition-transform active:scale-90 ${
+                notificacoesAtivas ? "bg-amber-300" : "bg-white/90"
+              }`}
+            >
+              {notificacoesAtivas ? "🔔" : "🔕"}
+            </button>
+          )}
           <button
             type="button"
             onClick={onSair}

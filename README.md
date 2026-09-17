@@ -66,8 +66,11 @@ services/                    Regras de negócio puras — não sabem que o React
 hooks/
   usePetGame.ts             Hook central: autenticação, carga/salvamento no servidor, loop de tempo real
   useSound.ts                 Efeitos sonoros sintetizados via Web Audio API (sem arquivos externos)
+  useNotificacoes.ts            Notificações locais (Notification API) quando um atributo fica crítico
+  useInstallPrompt.ts            Captura o evento `beforeinstallprompt` pro botão de instalar o PWA
 
 components/
+  InstallButton.tsx                        Botão flutuante "Instalar" (só aparece quando o navegador permite)
   TelaDeLogin.tsx, EscolhaDeEspecie.tsx   Entrar/criar conta, e escolher qual bichinho nasce do ovo
   PetAvatar.tsx, PetSpeechBubble.tsx        Cenário + personagem ilustrado em SVG (por espécie) e balão de fala
   StatBar.tsx, StatsPanel.tsx, LevelBadge.tsx    Barras de progresso e nível/XP
@@ -95,6 +98,8 @@ public/
 - **Minigames**: Toque Rápido (reflexo, 20s) e Desvie dos Obstáculos (trocar de faixa, dificuldade crescente). Cada um paga moedas + XP conforme a pontuação.
 - **Retenção**: recompensa diária com sequência de até 7 dias, falas espontâneas do pet, conquistas, e um resumo "enquanto você estava fora" ao reabrir o jogo.
 - **Som**: efeitos sonoros gerados em tempo real via Web Audio API (sem depender de arquivos de áudio).
+- **Notificações**: o sininho na barra superior pede permissão do navegador e passa a avisar (via Notification API + service worker) quando um atributo crítico é atingido *enquanto a aba está em segundo plano*. São notificações locais — exigem o app ainda aberto (mesmo minimizado); não chegam com o navegador fechado. Para isso, seria preciso Web Push real (ver "Sugestões de melhorias futuras").
+- **Instalar como app**: quando o navegador permite (Chrome/Edge/Android — Safari/iOS não expõe esse evento), um botão "Instalar" aparece no canto superior direito em qualquer tela, disparando o prompt nativo do PWA.
 - **Persistência**: o pet é salvo no banco a cada mudança relevante, com um *throttle* (no máximo 1x a cada ~10s) pra não bater no banco a cada tick de 3 segundos — e salva imediatamente ao trocar de aba ou fechar a página.
 
 ## Preparação para app / PWA
@@ -112,6 +117,6 @@ public/
 - **Rate limiting por IP** nas rotas de auth, além do bloqueio por usuário que já existe — evita tentativas de adivinhar nomes de usuário válidos em massa.
 - **Sprites reais**: o personagem é desenhado em SVG por código; a arquitetura (estágio + humor + espécie → props de um componente) já comporta trocar por sprites/spritesheets ilustrados sem mudar a lógica.
 - **Mais espécies, minigames e itens**: os catálogos ficam centralizados em `gameConfig.ts` — adicionar itens é só estender os arrays.
-- **Notificações push** ("seu pet sente sua falta") via Web Push ou Capacitor Push Notifications.
+- **Web Push de verdade**: hoje as notificações (`useNotificacoes.ts`) são locais — só funcionam com o app aberto (mesmo minimizado). Pra avisar com o navegador fechado, precisa de Web Push real: chaves VAPID, uma tabela de inscrições no banco, e um Cron Job (ex.: Vercel Cron) verificando os pets periodicamente.
 - **Mais cobertura de testes**: `services/__tests__/` já cobre decaimento, morte, level up, economia, conquistas e a recompensa diária (`npm run test`); ainda falta cobrir os componentes React e as rotas de API.
 - **Migrações versionadas**: o projeto usa `drizzle-kit push` (aplica o schema direto, bom pra iterar rápido); antes de produção com dados reais de verdade, vale trocar por `drizzle-kit generate` + `migrate` para ter histórico de migrações.

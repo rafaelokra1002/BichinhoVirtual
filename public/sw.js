@@ -15,6 +15,19 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// Ao tocar numa notificação do bichinho, foca uma aba já aberta do jogo (ou abre uma nova).
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((listaDeClientes) => {
+      for (const cliente of listaDeClientes) {
+        if ("focus" in cliente) return cliente.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow("/");
+    })
+  );
+});
+
 // Estratégia simples: tenta a rede, cai para o cache se estiver offline.
 // Suficiente para o app shell continuar abrindo sem internet; não é um cache
 // completo de todos os assets com hash do Next.js (ver README para evoluir isso

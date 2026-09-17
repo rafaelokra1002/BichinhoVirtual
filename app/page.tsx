@@ -58,6 +58,9 @@ export default function Home() {
     equiparItem,
     comprarPacoteDeGemas,
     som,
+    notificacoesSuportadas,
+    notificacoesAtivas,
+    alternarNotificacoes,
   } = usePetGame();
 
   const [aba, setAba] = useState<AbaDoJogo>("inicio");
@@ -166,7 +169,10 @@ export default function Home() {
           gemas={pet.gemas}
           mudo={som.mudo}
           recompensaDiariaDisponivel={Boolean(statusRecompensaDiaria?.disponivel)}
+          notificacoesSuportadas={notificacoesSuportadas}
+          notificacoesAtivas={notificacoesAtivas}
           onAlternarSom={som.alternarMudo}
+          onAlternarNotificacoes={alternarNotificacoes}
           onAbrirRecompensaDiaria={abrirModalRecompensaDiaria}
           onSair={sairDaConta}
         />

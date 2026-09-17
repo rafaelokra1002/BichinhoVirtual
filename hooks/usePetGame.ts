@@ -50,6 +50,7 @@ import { comprarItem, equiparItem, processarCompraSimuladaDeGemas } from "@/serv
 import { verificarConquistas } from "@/services/achievementService";
 import { getStatusRecompensaDiaria, resgatarRecompensaDiaria as resgatarNoService } from "@/services/dailyRewardService";
 import { useSound } from "./useSound";
+import { useNotificacoes } from "./useNotificacoes";
 
 const AVISOS_CRITICOS: Record<StatKey, string> = {
   fome: "Seu pet está com fome!",
@@ -85,6 +86,7 @@ export function usePetGame() {
   const ultimoSalvamentoRef = useRef(0);
   const timeoutSalvamentoRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const som = useSound();
+  const notificacoes = useNotificacoes();
 
   useEffect(() => {
     petRef.current = pet;
@@ -203,7 +205,8 @@ export function usePetGame() {
     som.tocar("levelUp");
   }, [pet, emitirFeedback, som]);
 
-  // Avisos de atributos críticos (uma vez por queda abaixo do limite).
+  // Avisos de atributos críticos (uma vez por queda abaixo do limite). Se a aba
+  // estiver em segundo plano, o mesmo aviso também vira uma notificação do sistema.
   useEffect(() => {
     if (!pet || !pet.vivo) return;
 
@@ -214,11 +217,14 @@ export function usePetGame() {
       if (valor <= CRITICAL_THRESHOLD && !jaAvisado) {
         avisosEnviados.current.add(chave);
         emitirFeedback(AVISOS_CRITICOS[chave], "alerta");
+        if (document.visibilityState !== "visible") {
+          notificacoes.notificar(`${pet.nome} precisa de você!`, AVISOS_CRITICOS[chave]);
+        }
       } else if (valor > CRITICAL_THRESHOLD && jaAvisado) {
         avisosEnviados.current.delete(chave);
       }
     });
-  }, [pet, emitirFeedback]);
+  }, [pet, emitirFeedback, notificacoes]);
 
   // Pet fala sozinho de vez em quando, convidando o jogador a interagir (retenção).
   // Lê o pet mais recente via ref (não via `setPet`) para não rodar dentro de um updater.
@@ -388,6 +394,22 @@ export function usePetGame() {
     setMostrarRecompensaDiaria(false);
   }, [pet, emitirFeedback, som]);
 
+  /** Ativa (pedindo permissão do navegador) ou desativa as notificações locais do bichinho. */
+  const handleAlternarNotificacoes = useCallback(async () => {
+    if (notificacoes.permitido) {
+      notificacoes.desativar();
+      emitirFeedback("Notificações desativadas.", "info");
+      return;
+    }
+
+    const concedida = await notificacoes.ativar();
+    if (concedida) {
+      emitirFeedback("Notificações ativadas! Seu pet vai te avisar quando precisar de você.", "sucesso");
+    } else if (typeof Notification !== "undefined" && Notification.permission === "denied") {
+      emitirFeedback("As notificações estão bloqueadas nas configurações do navegador.", "erro");
+    }
+  }, [notificacoes, emitirFeedback]);
+
   const fecharResumoOffline = useCallback(() => setResumoOffline(null), []);
   const fecharModalRecompensaDiaria = useCallback(() => setMostrarRecompensaDiaria(false), []);
   const abrirModalRecompensaDiaria = useCallback(() => {
@@ -478,5 +500,8 @@ export function usePetGame() {
     equiparItem: handleEquiparItem,
     comprarPacoteDeGemas: handleComprarPacoteDeGemas,
     som,
+    notificacoesSuportadas: notificacoes.suportado,
+    notificacoesAtivas: notificacoes.permitido,
+    alternarNotificacoes: handleAlternarNotificacoes,
   };
 }

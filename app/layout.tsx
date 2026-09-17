@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Baloo_2 } from "next/font/google";
 import { PwaRegister } from "@/components/PwaRegister";
+import { InstallButton } from "@/components/InstallButton";
 import "./globals.css";
 
 /** Fonte arredondada e lúdica — combina com o público infantil do jogo, no lugar de uma sans-serif genérica. */
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col bg-gradient-to-b from-sky-200 via-purple-100 to-rose-100 dark:from-stone-950 dark:via-purple-950/40 dark:to-stone-950">
         <div className="fundo-decorativo" aria-hidden="true" />
         <PwaRegister />
+        <InstallButton />
         {children}
       </body>
     </html>
