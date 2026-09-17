@@ -8,8 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-baloo);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +19,172 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-baloo), Arial, Helvetica, sans-serif;
+}
+
+/* Bolhas coloridas fixas ao fundo da página, atrás do cartão do jogo — dão profundidade sem distrair. */
+.fundo-decorativo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fundo-decorativo::before,
+.fundo-decorativo::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(40px);
+  opacity: 0.55;
+}
+
+.fundo-decorativo::before {
+  top: -10%;
+  left: -12%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, #f0abfc, transparent 70%);
+  animation: drift 14s ease-in-out infinite;
+}
+
+.fundo-decorativo::after {
+  bottom: -15%;
+  right: -12%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, #93c5fd, transparent 70%);
+  animation: drift 18s ease-in-out infinite reverse;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fundo-decorativo::before {
+    background: radial-gradient(circle, #86198f, transparent 70%);
+  }
+  .fundo-decorativo::after {
+    background: radial-gradient(circle, #1e3a8a, transparent 70%);
+  }
+}
+
+/* Balão de fala com "rabinho" apontando pro bichinho, em vez de só um canto sem borda. */
+.balao-fala {
+  position: relative;
+}
+
+.balao-fala::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  bottom: -7px;
+  width: 16px;
+  height: 16px;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform: translate(-50%, 0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -8px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -46px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Animações contínuas de "estar vivo" — variam por humor, mesmo sem interação. */
+@keyframes idle-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes idle-sway {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes idle-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes float-up-svg {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-42px);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
 }
