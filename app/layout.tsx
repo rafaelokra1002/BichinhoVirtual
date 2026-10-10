@@ -23,12 +23,13 @@ export const metadata: Metadata = {
 
 export const viewport = {
   themeColor: "#9333ea",
+  viewportFit: "cover" as const,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${baloo.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-gradient-to-b from-sky-200 via-purple-100 to-rose-100 dark:from-stone-950 dark:via-purple-950/40 dark:to-stone-950">
+    <html lang="pt-BR" className={`${baloo.variable} h-dvh antialiased`}>
+      <body className="flex h-dvh flex-col bg-gradient-to-b from-sky-200 via-purple-100 to-rose-100 dark:from-stone-950 dark:via-purple-950/40 dark:to-stone-950">
         <div className="fundo-decorativo" aria-hidden="true" />
         <PwaRegister />
         <InstallButton />

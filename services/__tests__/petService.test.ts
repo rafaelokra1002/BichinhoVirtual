@@ -16,7 +16,7 @@ import {
   limparUmCoco,
   receberRecompensaDeMinigame,
 } from "@/services/petService";
-import { CRITICAL_THRESHOLD, MAX_STAT, NIVEL_DO_ESTAGIO } from "@/services/gameConfig";
+import { CRITICAL_THRESHOLD, DECAY_PER_MINUTE, MAX_STAT, NIVEL_DO_ESTAGIO, SLEEP_DECAY_FACTOR } from "@/services/gameConfig";
 import { Comida, PetState } from "@/types/pet";
 
 const COMIDA_TESTE: Comida = { id: "racao", nome: "Ração", icone: "🥣", preco: 0, fome: 20, felicidade: 2, xp: 4 };
@@ -138,8 +138,8 @@ describe("aplicarPassagemDeTempo", () => {
     const dezMinutosMs = 10 * 60_000;
     const resultado = aplicarPassagemDeTempo(pet, dezMinutosMs);
 
-    expect(resultado.fome).toBeCloseTo(70); // 100 - 3*10
-    expect(resultado.energia).toBeCloseTo(85); // 100 - 1.5*10
+    expect(resultado.fome).toBeCloseTo(MAX_STAT - DECAY_PER_MINUTE.fome * 10);
+    expect(resultado.energia).toBeCloseTo(MAX_STAT - DECAY_PER_MINUTE.energia * 10);
     expect(resultado.vivo).toBe(true);
   });
 
@@ -149,7 +149,7 @@ describe("aplicarPassagemDeTempo", () => {
     const resultado = aplicarPassagemDeTempo(pet, dezMinutosMs);
 
     expect(resultado.energia).toBe(MAX_STAT); // recupera 14/min, clamped a 100
-    expect(resultado.fome).toBeCloseTo(89.5, 5); // decai a 35% da taxa normal (3/min) enquanto dorme
+    expect(resultado.fome).toBeCloseTo(MAX_STAT - DECAY_PER_MINUTE.fome * SLEEP_DECAY_FACTOR * 10, 5);
   });
 
   it("acorda automaticamente quando a energia enche dormindo", () => {

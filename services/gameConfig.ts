@@ -24,29 +24,36 @@ export const TICK_INTERVAL_MS = 3000;
 export const MIN_STAT = 0;
 export const MAX_STAT = 100;
 
+/**
+ * Taxas pensadas pra um pet que sobrevive bastante tempo sem cuidado (cerca de
+ * meio dia a um dia inteiro, dependendo de quanto os atributos ficam críticos ao
+ * mesmo tempo) — o suficiente pra uma criança ir pra escola e voltar sem achar o
+ * bichinho morto. Antes dessas taxas serem reduzidas (~20x), o pet morria em
+ * menos de uma hora sem nenhuma interação.
+ */
 export const DECAY_PER_MINUTE = {
-  fome: 3,
-  felicidade: 2,
-  energia: 1.5,
-  higiene: 2.5,
-  saude: 0.4,
+  fome: 0.15,
+  felicidade: 0.1,
+  energia: 0.08,
+  higiene: 0.13,
+  saude: 0.02,
 } as const;
 
 /** Abaixo desse valor um atributo é considerado crítico e passa a corroer a saúde. */
 export const CRITICAL_THRESHOLD = 25;
 
 /** Perda extra de saúde por minuto, por atributo em estado crítico. */
-export const SAUDE_PENALTY_PER_MINUTE = 2.5;
+export const SAUDE_PENALTY_PER_MINUTE = 0.15;
 
 export const SLEEP_DECAY_FACTOR = 0.35;
 export const SLEEP_ENERGY_RECOVERY_PER_MINUTE = 14;
 export const SLEEP_AUTO_WAKE_ENERGY = 100;
 
 /** A cada quantos minutos acordado o pet faz um novo cocô (até o limite MAX_COCOS). */
-export const MINUTOS_POR_COCO = 7;
+export const MINUTOS_POR_COCO = 20;
 export const MAX_COCOS = 4;
 /** Perda extra de higiene por minuto, por cocô não limpo. */
-export const PENALIDADE_HIGIENE_POR_COCO = 1.2;
+export const PENALIDADE_HIGIENE_POR_COCO = 0.3;
 
 export const ACTION_EFFECTS = {
   brincar: { felicidade: 25, energia: -15, xp: 10 },

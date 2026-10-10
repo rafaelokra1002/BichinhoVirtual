@@ -78,7 +78,7 @@ export default function Home() {
 
   if (carregando) {
     return (
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex min-h-0 flex-1 items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <span className="text-4xl animate-bounce">🥚</span>
           <p className="font-semibold text-stone-500 dark:text-stone-400">Carregando seu bichinho...</p>
@@ -89,8 +89,8 @@ export default function Home() {
 
   if (precisaAutenticar) {
     return (
-      <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <main className="flex w-full max-w-sm flex-col overflow-hidden rounded-[2rem] border-4 border-white/70 bg-white shadow-[0_20px_45px_-15px_rgba(147,51,234,0.4)] dark:border-stone-800/70 dark:bg-stone-900">
+      <div className="flex min-h-0 flex-1 items-center justify-center px-4 py-8">
+        <main className="flex max-h-full w-full max-w-sm flex-col overflow-y-auto rounded-[2rem] border-4 border-white/70 bg-white shadow-[0_20px_45px_-15px_rgba(147,51,234,0.4)] dark:border-stone-800/70 dark:bg-stone-900">
           <TelaDeLogin onAutenticar={autenticar} />
         </main>
       </div>
@@ -99,8 +99,8 @@ export default function Home() {
 
   if (precisaEscolherEspecie) {
     return (
-      <div className="flex flex-1 items-center justify-center px-4 py-8">
-        <main className="flex w-full max-w-sm flex-col overflow-hidden rounded-[2rem] border-4 border-white/70 bg-white shadow-[0_20px_45px_-15px_rgba(147,51,234,0.4)] dark:border-stone-800/70 dark:bg-stone-900">
+      <div className="flex min-h-0 flex-1 items-center justify-center px-4 py-8">
+        <main className="flex max-h-full w-full max-w-sm flex-col overflow-y-auto rounded-[2rem] border-4 border-white/70 bg-white shadow-[0_20px_45px_-15px_rgba(147,51,234,0.4)] dark:border-stone-800/70 dark:bg-stone-900">
           <EscolhaDeEspecie onEscolher={escolherEspecieEComecar} />
         </main>
       </div>
@@ -143,8 +143,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-1 items-center justify-center px-4 py-8">
-      <main className="relative flex w-full max-w-sm flex-col overflow-hidden rounded-[2rem] border-4 border-white/70 bg-white shadow-[0_20px_45px_-15px_rgba(147,51,234,0.4)] dark:border-stone-800/70 dark:bg-stone-900">
+    <div className="flex min-h-0 flex-1 items-center justify-center px-3 py-3 sm:px-4 sm:py-8">
+      <main className="relative flex h-full w-full max-w-sm flex-col overflow-hidden rounded-[2rem] border-4 border-white/70 bg-white shadow-[0_20px_45px_-15px_rgba(147,51,234,0.4)] dark:border-stone-800/70 dark:bg-stone-900 sm:h-auto sm:max-h-[calc(100dvh-4rem)]">
         {!pet.vivo && (
           <GameOverModal nome={pet.nome} nivelAlcancado={pet.nivel} onReiniciar={() => reiniciar()} />
         )}
@@ -179,7 +179,7 @@ export default function Home() {
 
         <FeedbackBanner mensagens={mensagens} />
 
-        <div className="flex flex-col gap-5 px-6 pb-6 pt-1">
+        <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-5 pb-3 pt-1">
           {aba === "inicio" && (
             <>
               <div className="relative flex flex-col items-center gap-2 overflow-hidden rounded-3xl border-2 border-stone-100 shadow-inner dark:border-stone-800">

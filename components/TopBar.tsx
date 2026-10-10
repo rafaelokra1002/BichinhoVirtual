@@ -26,7 +26,7 @@ export function TopBar({
   onSair,
 }: TopBarProps) {
   return (
-    <div className="flex flex-col gap-2 bg-gradient-to-r from-purple-500 to-fuchsia-500 px-4 py-3">
+    <div className="flex flex-col gap-1 bg-gradient-to-r from-purple-500 to-fuchsia-500 px-4 py-2 pt-[max(0.5rem,env(safe-area-inset-top))]">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-sm font-extrabold text-white">
           <span className="flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-amber-600 shadow-[0_2px_0_0_rgba(0,0,0,0.08)]">

@@ -26,7 +26,7 @@ export function ActionBar({
   const bloqueadoPorSono = pet.dormindo;
 
   return (
-    <div className="grid w-full grid-cols-3 gap-3">
+    <div className="grid w-full grid-cols-3 gap-2">
       <ActionButton
         label="Alimentar"
         icon="🍖"

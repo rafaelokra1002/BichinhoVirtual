@@ -512,8 +512,8 @@ export function PetAvatar({
         : undefined;
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <svg viewBox="0 0 320 340" className="w-full max-w-[260px]" role="img" aria-label={`${nome} está ${humor}`}>
+    <div className="flex flex-col items-center gap-1">
+      <svg viewBox="0 0 320 340" className="w-full max-w-[190px]" role="img" aria-label={`${nome} está ${humor}`}>
         <defs>
           <linearGradient id="ceuGradiente" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={humor === "dormindo" ? "#1e3a5f" : "#7dd3fc"} />
@@ -572,10 +572,10 @@ export function PetAvatar({
         <p className="text-xs text-stone-400 dark:text-stone-500">Toque nos cocôs para limpar</p>
       )}
 
-      <div className="flex flex-col items-center gap-1">
-        <p className="text-lg font-bold text-stone-800 dark:text-stone-100">{nome}</p>
+      <div className="flex flex-col items-center gap-0.5">
+        <p className="text-base font-bold leading-tight text-stone-800 dark:text-stone-100">{nome}</p>
         <span
-          className={`rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${TEMA_DO_ESTAGIO[estagio]}`}
+          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${TEMA_DO_ESTAGIO[estagio]}`}
         >
           {NOME_DO_ESTAGIO[estagio]}
         </span>

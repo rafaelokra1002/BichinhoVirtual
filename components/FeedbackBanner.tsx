@@ -20,11 +20,11 @@ export function FeedbackBanner({ mensagens }: FeedbackBannerProps) {
   const ultima = mensagens[mensagens.length - 1];
 
   return (
-    <div className="flex min-h-[2.75rem] items-center justify-center px-3 pt-2">
+    <div className="flex min-h-[2rem] items-center justify-center px-3 pt-1.5">
       {ultima && (
         <div
           key={ultima.id}
-          className={`animate-[fade-in_0.2s_ease-out] rounded-full px-4 py-2 text-center text-sm font-bold shadow-md ${ESTILO_POR_TIPO[ultima.tipo]}`}
+          className={`animate-[fade-in_0.2s_ease-out] rounded-full px-4 py-1.5 text-center text-sm font-bold shadow-md ${ESTILO_POR_TIPO[ultima.tipo]}`}
         >
           {ultima.texto}
         </div>
